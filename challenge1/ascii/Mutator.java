@@ -22,11 +22,13 @@ public class Mutator {
 
         img = ImageIO.read(new File(args[0]));
         int count = Integer.parseInt(args[1]);
+        int generations = Integer.parseInt(args[2]);
+        int gensize = Integer.parseInt(args[3]);
 
         Letter[] res = createRandom(count);
  
-        for(int i = 0; i < 100000; i++) {
-            res = stepGeneration(res, 1, 6);
+        for(int i = 0; i < generations; i++) {
+            res = stepGeneration(res, gensize, 6);
         }
 
         for(Letter l : res) {
