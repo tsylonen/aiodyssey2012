@@ -28,7 +28,7 @@ public class Mutator {
         Letter[] res = createRandom(count);
  
         for(int i = 0; i < generations; i++) {
-            res = stepGeneration(res, gensize, 6);
+            res = stepGeneration(res, gensize, 1);
         }
 
         for(Letter l : res) {
@@ -55,8 +55,8 @@ public class Mutator {
             char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
             char letter = alphabet[Math.abs(rng.nextInt()%26)];
 
-            x = rng.nextDouble()*255;
-            y = rng.nextDouble()*255;
+            x = rng.nextDouble()*730;
+            y = rng.nextDouble()*547;
             rot = rng.nextDouble()*2*Math.PI;
             scale = rng.nextDouble()*10;
             r = rng.nextFloat();
@@ -84,7 +84,7 @@ public class Mutator {
         return ret;
     }
 
-    // private static Letter[] modifyMutate(Letter[] mother, int mutations, double multi) {
+    // private static Letter[] modifyMutate(Letter[] mother, int mutations) {
     //     Letter[] ret = new Letter[mother.length];
 
     //     for(int i = 0; i < mother.length; i++) {
@@ -93,6 +93,17 @@ public class Mutator {
 
     //     for(int i = 0; i < mutations; i++) {
     //         int ind = Math.abs(rng.nextInt()%mother.length);
+    //         int r,g,b,a;
+    //         double x,y,rot,size;
+
+    //         r = mother[ind].color.getRed() + (rng.nextInt()%100) - 50;
+    //         g = mother[ind].color.getGreen() + (rng.nextInt()%100) - 50;
+    //         b = mother[ind].color.getBlue() + (rng.nextInt()%100) - 50;
+    //         a = mother[ind].color.getTransparency() + (rng.nextInt()%100) - 50;
+
+    //         x = mother[ind].x * ((rng.nextDouble() * 2 + 9) / 10);
+    //         x = mother[ind].x * ((rng.nextDouble() * 2 + 9) / 10);
+    //         x = mother[ind].x * ((rng.nextDouble() * 2 + 9) / 10);
             
     //     }
     //     return ret;
@@ -118,6 +129,6 @@ public class Mutator {
     }
 
     private static double score(Letter[] ascimg) {
-        return Ascii.cost(img, Arrays.asList(ascimg));
+        return Ascii.approxCost(img, Arrays.asList(ascimg));
     }
 }

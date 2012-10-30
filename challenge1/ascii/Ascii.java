@@ -6,6 +6,7 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
+
 /**
  * Helper class for ASCII Art challenge.
  * Contains functions for evaluating solutions as well as drawing them.
@@ -68,6 +69,22 @@ public class Ascii {
 		double res=0;
 		for(int i=0; i<height; ++i) {
 			for(int j=0; j<width; ++j) {
+				res += diffRGB(img.getRGB(j,i), tmp.getRGB(j,i));
+			}
+		}
+		return res;
+	}
+
+	/** Calculates approximate cost of a solution consisting of letters.
+	 */
+	static double approxCost(BufferedImage img, Collection<Letter> letters) {
+		int height = img.getHeight(), width = img.getWidth();
+		BufferedImage tmp = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		draw(tmp.createGraphics(), letters, width, height);
+
+		double res=0;
+		for(int i=0; i<height; i+=7) {
+			for(int j=0; j<width; j+=9) {
 				res += diffRGB(img.getRGB(j,i), tmp.getRGB(j,i));
 			}
 		}
