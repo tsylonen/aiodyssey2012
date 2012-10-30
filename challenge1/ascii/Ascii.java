@@ -10,6 +10,8 @@ import javax.imageio.*;
  * Helper class for ASCII Art challenge.
  * Contains functions for evaluating solutions as well as drawing them.
  */
+
+// Usage: ascii imagefile basefile
 public class Ascii {
 	static Font font;
 	static {
@@ -43,6 +45,7 @@ public class Ascii {
 	 */
 	static void drawLetters(Collection<Letter> letters, int width, int height) {
 		Window frame = new Window();
+                frame.setResizable(false);
 		frame.letters = letters;
 		frame.setSize(width, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
