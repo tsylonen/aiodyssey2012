@@ -16,6 +16,8 @@ public class Mutator {
 
     private static Random rng;
     private static BufferedImage img;
+    private static int width, height;
+
 
     public static void main(String[] args) throws IOException {
         rng = new Random();
@@ -55,8 +57,8 @@ public class Mutator {
             char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
             char letter = alphabet[Math.abs(rng.nextInt()%26)];
 
-            x = rng.nextDouble()*730;
-            y = rng.nextDouble()*547;
+            x = rng.nextDouble()*width;
+            y = rng.nextDouble()*height;
             rot = rng.nextDouble()*2*Math.PI;
             scale = rng.nextDouble()*10;
             r = rng.nextFloat();
@@ -129,6 +131,6 @@ public class Mutator {
     }
 
     private static double score(Letter[] ascimg) {
-        return Ascii.approxCost(img, Arrays.asList(ascimg));
+        return Ascii.cost(img, Arrays.asList(ascimg));
     }
 }
