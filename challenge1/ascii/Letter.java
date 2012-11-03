@@ -13,6 +13,29 @@ class Letter {
         this.color = color;
         this.letter = letter;
     }
+
+    /**
+     * Return a random Letter
+     */
+    public static Letter randomLetter() {
+        double x, y, rot, scale;
+        float r, g, b, a;
+        char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+        char letter = alphabet[Math.abs(rng.nextInt()%26)];
+
+        x = rng.nextDouble()*width;
+        y = rng.nextDouble()*height;
+        rot = rng.nextDouble()*2*Math.PI;
+        scale = rng.nextDouble()*10;
+        r = rng.nextFloat();
+        g = rng.nextFloat();
+        b = rng.nextFloat();
+        a = rng.nextFloat();
+
+        return new Letter(x, y, rot, scale, new Color(r,g,b,a), letter);
+    }
+
+
     AffineTransform transform() {
         AffineTransform res = AffineTransform.getTranslateInstance(x,y);
         res.scale(size, size);
