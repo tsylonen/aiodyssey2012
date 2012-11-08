@@ -1,2 +1,4 @@
 *.txt
 *.class
+/challenge1/ascii/costs
+/challenge1/ascii/costs2

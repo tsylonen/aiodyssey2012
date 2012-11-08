@@ -32,43 +32,52 @@ public class Mutator {
 
 
     public static void main(String[] args) throws IOException {
-        rng = new Random();
 
         img = ImageIO.read(new File(args[0]));
         int count = Integer.parseInt(args[1]);
         int generations = Integer.parseInt(args[2]);
         int gensize = Integer.parseInt(args[3]);
-        
-        this.mutationcount = 1;
 
-        Letter[] res = createRandom(count);
+        double s = 0;
 
-        for(int i = 0; i < generations; i++) {
-            res = stepGeneration(res, gensize, 1);
+        for(int j = 0; j < 10; j++) {
+
+            Dna dna = new Dna(2, count, img);
+
+
+            for(int i = 0; i < generations; i++) {
+                dna = stepGeneration(dna, gensize);
+            }
+
+            //            System.out.println(dna);
+            double cost = dna.calculateCost();
+            //System.out.println(cost);
+
+            s += cost;
+
+
         }
 
-        for(Letter l : res) {
-            System.out.println(l);
-        }
-
-        System.err.println("Solution cost: "+Ascii.cost(img, Arrays.asList(res)));
+        System.out.println(s/10);
     }
 
 
     /**
      * Make gensize mutations of mother, return the one with the best score
      */
-    private static Letter[] stepGeneration(Letter[] mother, int gensize, int mutations){
-        Letter[] best, newborn;
+    private static Dna stepGeneration(Dna mother, int gensize){
+        Dna best, newborn;
         best = mother;
-        double bestscore = score(mother);
+
+        double bestscore = mother.calculateCost();
+
         ExecutorService executorService = Executors.newFixedThreadPool(executorCount);
         Strategy s = Strategy.executorStrategy(executorService);
 
         for(int i = 0; i < gensize; i++) {
-            newborn = mutate(mother, mutations);
+            newborn = mother.mutate(2);
 
-            if(score(newborn) < bestscore) {
+            if(newborn.calculateCost() < bestscore) {
                 best = newborn;
             }
         }

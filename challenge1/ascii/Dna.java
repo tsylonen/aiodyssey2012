@@ -1,47 +1,69 @@
 import java.util.Arrays;
 import fj.F;  
 import java.awt.image.*;
+import java.util.Random;
 
 public class Dna {
     private Letter[] dna;
     private int cost;
-    private BufferedI
+    private BufferedImage image;
+    private static Random rng;
+    private int mutationrate;
 
-    public Dna(Letter[] letters) {
+    public Dna(Letter[] letters, int mutationrate, BufferedImage img) {
+        this.image = img;
+        this.mutationrate = mutationrate;
+        rng = new Random();
         this.dna = letters;
-        this.cost = Letter.
+
+    }
+
+    public Dna(int mutationrate, int length, BufferedImage img) {
+        this.image = img;
+        this.mutationrate = mutationrate;
+        rng = new Random();
+        this.dna = this.random(length);
     }
 
     /**
      * Make a copy of mother but randomize some letters
      */
-    private static Letter[] mutate(Letter[] mother, int mutations) {
-        Letter[] ret = Arrays.copyOf(mother, mother.length);
+    public Dna mutate(int mutations) {
+
+        Letter[] ret = Arrays.copyOf(dna , dna.length);
 
         for(int i = 0; i < mutations; i++) {
-            int ind = Math.abs(rng.nextInt()%mother.length);
-            ret[i] = randomLetter();
+            int ind = Math.abs(rng.nextInt()%dna.length);
+            ret[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
         }
-        return ret;
+        return new Dna(ret, this.mutationrate, image);
     }
 
-    private double calculateCost(Letter[] ascimg) {
-        return Ascii.cost(img, Arrays.asList(dna));
+    public double calculateCost() {
+        return Ascii.cost(image, Arrays.asList(dna));
     }
 
-    // an F-subclass that does mutation
-    public F mutatorF = new F() {
-            public Letter[] f(Letter[] mother) {
-                return mutate(mother, mutationcount);
-            }
-        };
+    // // an F-subclass that does mutation
+    // public F mutatorF = new F() {
+    //         public Letter[] f() {
+    //             return this.mutate();
+    //         }
+    //     };
 
-    public static Letter[] random(int letters) {
+    private Letter[] random(int letters) {
         Letter[] res = new Letter[letters];
         for(int i = 0; i < letters; i++) {
-            res[i] = Letter.randomLetter();
+            res[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
         }
         return res;
+    }
+
+    public String toString() {
+        String s = "";
+        for(Letter l : dna) {
+            s += l.toString() + "\n";
+        }
+        return s;
     }
 
 
@@ -78,7 +100,5 @@ public class Dna {
     //     }
     //     return ret;
     // }
-
-
 
 }

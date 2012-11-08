@@ -1,10 +1,12 @@
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.Random;
+
 class Letter {
     double x,y,rot,size;
     Color color;
     char letter;
-
+    
     Letter(double x, double y, double rot, double size, Color color, char letter) {
         this.x = x;
         this.y = y;
@@ -17,7 +19,10 @@ class Letter {
     /**
      * Return a random Letter
      */
-    public static Letter randomLetter() {
+    public static Letter randomLetter(int width, int height) {
+        Random rng;
+        rng = new Random();
+
         double x, y, rot, scale;
         float r, g, b, a;
         char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
