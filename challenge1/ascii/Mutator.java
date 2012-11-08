@@ -31,11 +31,12 @@ public class Mutator {
     private static Random rng;
     private static BufferedImage img;
     private static int width, height;
-    private static int executorCount = 1;
+    private static int executorCount = 4;
     private static int mutationcount;
-
+    private static ExecutorService executorService;
 
     public static void main(String[] args) throws IOException {
+        executorService = Executors.newFixedThreadPool(executorCount);
 
         img = ImageIO.read(new File(args[0]));
         int count = Integer.parseInt(args[1]);
@@ -75,22 +76,9 @@ public class Mutator {
                 }
             };
 
-        //Dna[] generation = new Dna[gensize];
         List<Dna> generation = fj.data.List.replicate(gensize, mother); 
-        // for(int i = 0; i < gensize; i++) {
-        //     generation[i] = mother;
-        // }
 
-        ExecutorService executorService = Executors.newFixedThreadPool(executorCount);
         Strategy s = Strategy.executorStrategy(executorService);
-
-        // for(int i = 0; i < gensize; i++) {
-        //     newborn = mother.mutate(rate);
-
-        //     if(newborn.cost() < bestscore) {
-        //         best = newborn;
-        //     }
-        // }
 
         generation = (List<Dna>)s.parMap(f, generation)._1();
         
@@ -100,6 +88,7 @@ public class Mutator {
                 best = dna;
             }
         }
+
         return best;
     }
 

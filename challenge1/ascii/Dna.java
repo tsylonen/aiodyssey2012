@@ -47,15 +47,8 @@ public class Dna {
     }
 
     private double calculateCost() {
-        return Ascii.cost(image, Arrays.asList(dna));
+        return Ascii.approxCost(image, Arrays.asList(dna));
     }
-
-    // // an F-subclass that does mutation
-    // public F mutatorF = new F() {
-    //         public Letter[] f() {
-    //             return this.mutate();
-    //         }
-    //     };
 
     private Letter[] random(int letters) {
         Letter[] res = new Letter[letters];
