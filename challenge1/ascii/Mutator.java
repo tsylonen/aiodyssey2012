@@ -2,13 +2,17 @@ import java.util.Arrays;
 
 import fj.F;  
 import fj.control.parallel.Strategy;
+import fj.data.List;
 import java.util.concurrent.*;
+
+import java.lang.System;
 
 import javax.imageio.*;
 import java.io.*;
 import java.awt.image.*;
-import java.util.*;
-import java.awt.*;
+import java.util.ArrayList;
+//import java.util.List;
+//import java.awt.*;
 
 //import extra166y.Ops.LongOp;
 
@@ -27,7 +31,7 @@ public class Mutator {
     private static Random rng;
     private static BufferedImage img;
     private static int width, height;
-    private static int executorCount = 15;
+    private static int executorCount = 1;
     private static int mutationcount;
 
 
@@ -38,47 +42,62 @@ public class Mutator {
         int generations = Integer.parseInt(args[2]);
         int gensize = Integer.parseInt(args[3]);
 
-        double s = 0;
-
-        for(int j = 0; j < 10; j++) {
-
-            Dna dna = new Dna(2, count, img);
+        
+        Dna dna = new Dna(count, img);
 
 
-            for(int i = 0; i < generations; i++) {
-                dna = stepGeneration(dna, gensize);
-            }
-
-            //            System.out.println(dna);
-            double cost = dna.calculateCost();
-            //System.out.println(cost);
-
-            s += cost;
-
-
+        for(int i = 0; i < generations; i++) {
+            dna = stepGeneration(dna, gensize, 2);
         }
 
-        System.out.println(s/10);
+        System.out.println(dna);
+        double cost = dna.cost();
+        System.err.println(cost);
+
+        System.exit(0);
     }
 
 
     /**
      * Make gensize mutations of mother, return the one with the best score
      */
-    private static Dna stepGeneration(Dna mother, int gensize){
+    private static Dna stepGeneration(Dna mother, int gensize, int rate){
         Dna best, newborn;
         best = mother;
 
-        double bestscore = mother.calculateCost();
+        double bestscore = mother.cost();
+        
+        final int r = rate;
+        final Dna m = mother;
+        F f = new F() {
+                public Dna f(Object mom) {
+                    return ((Dna)mom).mutate(r);
+                }
+            };
+
+        //Dna[] generation = new Dna[gensize];
+        List<Dna> generation = fj.data.List.replicate(gensize, mother); 
+        // for(int i = 0; i < gensize; i++) {
+        //     generation[i] = mother;
+        // }
 
         ExecutorService executorService = Executors.newFixedThreadPool(executorCount);
         Strategy s = Strategy.executorStrategy(executorService);
 
-        for(int i = 0; i < gensize; i++) {
-            newborn = mother.mutate(2);
+        // for(int i = 0; i < gensize; i++) {
+        //     newborn = mother.mutate(rate);
 
-            if(newborn.calculateCost() < bestscore) {
-                best = newborn;
+        //     if(newborn.cost() < bestscore) {
+        //         best = newborn;
+        //     }
+        // }
+
+        generation = (List<Dna>)s.parMap(f, generation)._1();
+        
+
+        for(Dna dna : generation) {
+            if(dna.cost() < best.cost()) {
+                best = dna;
             }
         }
         return best;

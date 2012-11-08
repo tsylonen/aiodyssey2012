@@ -5,22 +5,21 @@ import java.util.Random;
 
 public class Dna {
     private Letter[] dna;
-    private int cost;
+    private double cost;
     private BufferedImage image;
     private static Random rng;
-    private int mutationrate;
 
-    public Dna(Letter[] letters, int mutationrate, BufferedImage img) {
+    public Dna(Letter[] letters, BufferedImage img) {
+        this.cost = -1;
         this.image = img;
-        this.mutationrate = mutationrate;
         rng = new Random();
         this.dna = letters;
 
     }
 
-    public Dna(int mutationrate, int length, BufferedImage img) {
+    public Dna(int length, BufferedImage img) {
+        this.cost = -1;
         this.image = img;
-        this.mutationrate = mutationrate;
         rng = new Random();
         this.dna = this.random(length);
     }
@@ -36,10 +35,18 @@ public class Dna {
             int ind = Math.abs(rng.nextInt()%dna.length);
             ret[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
         }
-        return new Dna(ret, this.mutationrate, image);
+        return new Dna(ret, image);
     }
 
-    public double calculateCost() {
+    // return the cost, if it hasn't been calculated, calculate it
+    public double cost() {
+        if(this.cost < 0) {
+            this.cost = this.calculateCost();
+        }
+        return this.cost;
+    }
+
+    private double calculateCost() {
         return Ascii.cost(image, Arrays.asList(dna));
     }
 
@@ -66,7 +73,7 @@ public class Dna {
         return s;
     }
 
-
+    
 
 
 
