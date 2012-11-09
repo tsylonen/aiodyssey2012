@@ -42,27 +42,35 @@ class Letter {
     /**
      * Modify a letter by randomizing it a bit.
      */
-    public Letter mutateLetter(int width, int height, float rate) {
+    public static Letter mutateLetter(Letter l, int width, int height, float rate) {
         Random rng = new Random();
 
-        float r,g,b,a,x,y,rot,size;
-        float[] comps = this.color.getComponents(new float[4]);
+        float r,g,b,a;
+        double x,y,rot,size;
+        float[] comps = l.color.getComponents(new float[4]);
+        float midpoint = 1-rate/2;
         
-        x = (float)this.x * (rate * rng.nextFloat() + 1);
-        y = (float)this.y * (rate * rng.nextFloat() + 1);
-        rot = (float)this.rot * (rate * rng.nextFloat() + 1);
-        size = (float)this.size * (rate * rng.nextFloat() + 1);
-        r = comps[0] * (rate * rng.nextFloat() + 1);
-        g = comps[1] * (rate * rng.nextFloat() + 1);
-        b = comps[2] * (rate * rng.nextFloat() + 1);
-        a = comps[3] * (rate * rng.nextFloat() + 1);
+        x = l.x * (rate * rng.nextDouble() + midpoint);
+        y = l.y * (rate * rng.nextDouble() + midpoint);
+        rot = l.rot * (rate * rng.nextDouble() + midpoint);
+        size = l.size * (rate * rng.nextDouble() + midpoint);
+        r = comps[0] * (rate * rng.nextFloat() + midpoint);
+        g = comps[1] * (rate * rng.nextFloat() + midpoint);
+        b = comps[2] * (rate * rng.nextFloat() + midpoint);
+        a = comps[3] * (rate * rng.nextFloat() + midpoint);
 
         if(r>1) r = 1;
         if(b>1) b = 1;
         if(g>1) g = 1;
         if(a>1) a = 1;
 
-        return new Letter(x,y,rot, size, new Color(r,g,b,a), this.letter);
+        if(r<1) r = 0;
+        if(b<1) b = 0;
+        if(g<1) g = 0;
+        if(a<1) a = 0;
+
+
+        return new Letter(x,y,rot, size, new Color(r,g,b,a), l.letter);
 
     }
 

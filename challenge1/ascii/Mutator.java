@@ -43,7 +43,6 @@ public class Mutator {
         int generations = Integer.parseInt(args[2]);
         int gensize = Integer.parseInt(args[3]);
 
-        
         Dna dna = new Dna(count, img);
 
 
@@ -73,7 +72,7 @@ public class Mutator {
         final float r = rate;
         F f = new F() {
                 public Dna f(Object mom) {
-                    return ((Dna)mom).modifyMutate(m, r);
+                    return ((Dna)mom).modifyMutate(m,r);
                 }
             };
 
