@@ -45,13 +45,13 @@ class Letter {
     public Letter mutateLetter(int width, int height, float rate) {
         Random rng = new Random();
 
-        float r,g,b,a;
+        float r,g,b,a,x,y,rot,size;
         float[] comps = this.color.getComponents(new float[4]);
         
-        x = this.x * (rate * rng.nextFloat() + 1);
-        y = this.y * (rate * rng.nextFloat() + 1);
-        rot = this.rot * (rate * rng.nextFloat() + 1);
-        size = this.size * (rate * rng.nextFloat() + 1);
+        x = (float)this.x * (rate * rng.nextFloat() + 1);
+        y = (float)this.y * (rate * rng.nextFloat() + 1);
+        rot = (float)this.rot * (rate * rng.nextFloat() + 1);
+        size = (float)this.size * (rate * rng.nextFloat() + 1);
         r = comps[0] * (rate * rng.nextFloat() + 1);
         g = comps[1] * (rate * rng.nextFloat() + 1);
         b = comps[2] * (rate * rng.nextFloat() + 1);

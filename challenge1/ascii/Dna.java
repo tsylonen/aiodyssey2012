@@ -48,6 +48,29 @@ public class Dna {
         return newdna;
     }
 
+    public Dna modifyMutate(int mutations) {
+        Letter[] ret = Arrays.copyOf(dna , dna.length);
+
+        for(int i = 0; i < mutations; i++) {
+            int ind = Math.abs(rng.nextInt(dna.length));
+            ret[i] = ret[i].mutateLetter(image.getWidth(), image.getHeight(), (float)0.1);
+            //ret[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
+            
+            //flip a letter
+            int a = rng.nextInt(dna.length);
+            int b = rng.nextInt(dna.length);
+            Letter temp = ret[a];
+            ret[a] = ret[b];
+            ret[b] = temp;
+        }
+        
+        Dna newdna = new Dna(ret, image);
+        newdna.cost();
+        return newdna;
+    }
+
+
+
 
     // return the cost, if it hasn't been calculated, calculate it
     public double cost() {
@@ -78,29 +101,6 @@ public class Dna {
     }
 
     
-
-    public Dna modifyMutate(int mutations) {
-        Letter[] ret = Arrays.copyOf(dna , dna.length);
-
-        for(int i = 0; i < mutations; i++) {
-            int ind = Math.abs(rng.nextInt(dna.length));
-            ret[i] = ret[i].mutateLetter(image.getWidth(), image.getHeight(), (float)0.1);
-            //ret[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
-            
-            //flip a letter
-            int a = rng.nextInt(dna.length);
-            int b = rng.nextInt(dna.length);
-            Letter temp = ret[a];
-            ret[a] = ret[b];
-            ret[b] = temp;
-        }
-        
-        Dna newdna = new Dna(ret, image);
-        newdna.cost();
-        return newdna;
-    }
-
-
 
 
     // dark dwelling of abandoned functions
