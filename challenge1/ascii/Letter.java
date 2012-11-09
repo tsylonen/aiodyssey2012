@@ -20,8 +20,7 @@ class Letter {
      * Return a random Letter
      */
     public static Letter randomLetter(int width, int height) {
-        Random rng;
-        rng = new Random();
+        Random rng = new Random();
 
         double x, y, rot, scale;
         float r, g, b, a;
@@ -38,6 +37,33 @@ class Letter {
         a = rng.nextFloat();
 
         return new Letter(x, y, rot, scale, new Color(r,g,b,a), letter);
+    }
+
+    /**
+     * Modify a letter by randomizing it a bit.
+     */
+    public Letter mutateLetter(int width, int height, float rate) {
+        Random rng = new Random();
+
+        float r,g,b,a;
+        float[] comps = this.color.getComponents(new float[4]);
+        
+        x = this.x * (rate * rng.nextFloat() + 1);
+        y = this.y * (rate * rng.nextFloat() + 1);
+        rot = this.rot * (rate * rng.nextFloat() + 1);
+        size = this.size * (rate * rng.nextFloat() + 1);
+        r = comps[0] * (rate * rng.nextFloat() + 1);
+        g = comps[1] * (rate * rng.nextFloat() + 1);
+        b = comps[2] * (rate * rng.nextFloat() + 1);
+        a = comps[3] * (rate * rng.nextFloat() + 1);
+
+        if(r>1) r = 1;
+        if(b>1) b = 1;
+        if(g>1) g = 1;
+        if(a>1) a = 1;
+
+        return new Letter(x,y,rot, size, new Color(r,g,b,a), this.letter);
+
     }
 
 

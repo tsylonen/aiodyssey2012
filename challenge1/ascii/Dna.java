@@ -79,15 +79,32 @@ public class Dna {
 
     
 
+    public Dna modifyMutate(int mutations) {
+        Letter[] ret = Arrays.copyOf(dna , dna.length);
 
+        for(int i = 0; i < mutations; i++) {
+            int ind = Math.abs(rng.nextInt(dna.length));
+            ret[i] = ret[i].mutateLetter(image.getWidth(), image.getHeight(), 0.1);
+            //ret[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
+            
+            //flip a letter
+            int a = rng.nextInt(dna.length);
+            int b = rng.nextInt(dna.length);
+            Letter temp = ret[a];
+            ret[a] = ret[b];
+            ret[b] = temp;
+        }
+        
+        Dna newdna = new Dna(ret, image);
+        newdna.cost();
+        return newdna;
+    }
 
 
 
 
     // dark dwelling of abandoned functions
-
-
-    // private static Letter[] modifyMutate(Letter[] mother, int mutations) {
+    // private static Dna modifyMutate(Letter[] mother, int mutations) {
     //     Letter[] ret = new Letter[mother.length];
 
     //     for(int i = 0; i < mother.length; i++) {
