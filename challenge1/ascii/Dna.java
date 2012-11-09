@@ -42,8 +42,10 @@ public class Dna {
             ret[a] = ret[b];
             ret[b] = temp;
         }
-
-        return new Dna(ret, image);
+        
+        Dna newdna = new Dna(ret, image);
+        newdna.cost();
+        return newdna;
     }
 
 
