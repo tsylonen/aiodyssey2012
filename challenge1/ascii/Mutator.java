@@ -48,7 +48,7 @@ public class Mutator {
 
 
         for(int i = 0; i < generations; i++) {
-            dna = stepGeneration(dna, gensize, 2);
+            dna = stepGeneration(dna, gensize, 4);
         }
 
         System.out.println(dna);

@@ -88,7 +88,7 @@ public class Ascii {
                 res += diffRGB(img.getRGB(j,i), tmp.getRGB(j,i));
             }
         }
-        return res;
+        return res*7*9;
     }
     /** Calculates difference between two colors.
      */

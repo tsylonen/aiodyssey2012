@@ -47,7 +47,7 @@ public class Dna {
     }
 
     private double calculateCost() {
-        return Ascii.approxCost(image, Arrays.asList(dna));
+        return Ascii.cost(image, Arrays.asList(dna));
     }
 
     private Letter[] random(int letters) {
