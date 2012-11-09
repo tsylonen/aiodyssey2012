@@ -48,8 +48,8 @@ public class Mutator {
 
 
         for(int i = 0; i < generations; i++) {
-            float heat = (generations+1)/(generations -i) + (float)0.01;
-            dna = stepGeneration(dna, gensize, 4, heat);
+            //            float heat = (generations+1)/(generations -i) + (float)0.01;
+            dna = stepGeneration(dna, gensize, 4, (float)0.4);
         }
 
         System.out.println(dna);
