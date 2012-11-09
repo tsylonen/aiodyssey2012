@@ -48,12 +48,12 @@ public class Dna {
         return newdna;
     }
 
-    public Dna modifyMutate(int mutations) {
+    public Dna modifyMutate(int mutations, float rate) {
         Letter[] ret = Arrays.copyOf(dna , dna.length);
 
         for(int i = 0; i < mutations; i++) {
             int ind = Math.abs(rng.nextInt(dna.length));
-            ret[i] = ret[i].mutateLetter(image.getWidth(), image.getHeight(), (float)0.1);
+            ret[i] = ret[i].mutateLetter(image.getWidth(), image.getHeight(), rate);
             //ret[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
             
             //flip a letter

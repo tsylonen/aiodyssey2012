@@ -48,7 +48,8 @@ public class Mutator {
 
 
         for(int i = 0; i < generations; i++) {
-            dna = stepGeneration(dna, gensize, 4);
+            float heat = generations/i;
+            dna = stepGeneration(dna, gensize, 4, heat);
         }
 
         System.out.println(dna);
@@ -62,17 +63,17 @@ public class Mutator {
     /**
      * Make gensize mutations of mother, return the one with the best score
      */
-    private static Dna stepGeneration(Dna mother, int gensize, int rate){
+    private static Dna stepGeneration(Dna mother, int gensize, int mutations, float rate){
         Dna best, newborn;
         best = mother;
 
         double bestscore = mother.cost();
         
-        final int r = rate;
-        final Dna m = mother;
+        final int m = mutations;
+        final float r = rate;
         F f = new F() {
                 public Dna f(Object mom) {
-                    return ((Dna)mom).modifyMutate(r);
+                    return ((Dna)mom).modifyMutate(m, r);
                 }
             };
 
