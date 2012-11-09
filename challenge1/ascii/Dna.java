@@ -84,7 +84,7 @@ public class Dna {
 
         for(int i = 0; i < mutations; i++) {
             int ind = Math.abs(rng.nextInt(dna.length));
-            ret[i] = ret[i].mutateLetter(image.getWidth(), image.getHeight(), 0.1);
+            ret[i] = ret[i].mutateLetter(image.getWidth(), image.getHeight(), (float)0.1);
             //ret[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
             
             //flip a letter
