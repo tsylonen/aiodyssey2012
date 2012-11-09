@@ -32,11 +32,20 @@ public class Dna {
         Letter[] ret = Arrays.copyOf(dna , dna.length);
 
         for(int i = 0; i < mutations; i++) {
-            int ind = Math.abs(rng.nextInt()%dna.length);
+            int ind = Math.abs(rng.nextInt(dna.length));
             ret[i] = Letter.randomLetter(image.getWidth(), image.getHeight());
+            
+            //flip a letter
+            int a = rng.nextInt(dna.length);
+            int b = rng.nextInt(dna.length);
+            Letter temp = ret[a];
+            ret[a] = ret[b];
+            ret[b] = temp;
         }
+
         return new Dna(ret, image);
     }
+
 
     // return the cost, if it hasn't been calculated, calculate it
     public double cost() {

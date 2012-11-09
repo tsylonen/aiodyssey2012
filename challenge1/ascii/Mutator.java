@@ -31,7 +31,7 @@ public class Mutator {
     private static Random rng;
     private static BufferedImage img;
     private static int width, height;
-    private static int executorCount = 4;
+    private static int executorCount = 16;
     private static int mutationcount;
     private static ExecutorService executorService;
 

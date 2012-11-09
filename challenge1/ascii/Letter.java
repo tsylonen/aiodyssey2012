@@ -31,7 +31,7 @@ class Letter {
         x = rng.nextDouble()*width;
         y = rng.nextDouble()*height;
         rot = rng.nextDouble()*2*Math.PI;
-        scale = rng.nextDouble()*10;
+        scale = rng.nextDouble()*25;
         r = rng.nextFloat();
         g = rng.nextFloat();
         b = rng.nextFloat();
