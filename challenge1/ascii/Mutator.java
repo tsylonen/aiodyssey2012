@@ -72,7 +72,7 @@ public class Mutator {
         final Dna m = mother;
         F f = new F() {
                 public Dna f(Object mom) {
-                    return ((Dna)mom).mutate(r);
+                    return ((Dna)mom).modifyMutate(r);
                 }
             };
 
