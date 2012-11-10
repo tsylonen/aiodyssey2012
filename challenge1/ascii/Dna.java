@@ -54,9 +54,10 @@ public class Dna {
 
         for(int i = 0; i < mutations; i++) {
             int ind = Math.abs(rng.nextInt(dna.length));
-            ret[i] = Letter.mutateLetter(ret[i], image.getWidth(), image.getHeight(), rate);
+            System.err.print("Modifying " + ind);
+            ret[ind] = Letter.mutateLetter(ret[ind], image.getWidth(), image.getHeight(), rate);
             
-            //flip a letter with probability of rate
+            //flip a letter with probability of rate/2
             if(rng.nextDouble() < rate/2) {
                 int a = rng.nextInt(dna.length);
                 int b = rng.nextInt(dna.length);
