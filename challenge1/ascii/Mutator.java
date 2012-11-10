@@ -44,15 +44,23 @@ public class Mutator {
         int gensize = Integer.parseInt(args[3]);
 
         Dna dna = new Dna(count, img);
+        double firstcost = dna.cost();
         double lastbest;
+        float heat = 4f;
         for(int i = 0; i < generations; i++) {
-            //float heat = (generations+1)/(generations -i) + (float)0.01;
+            if(i%50==0 && heat > 0.4) heat *= 0.8f;
+            //            heat = 4f/((i/100)+1);
+
             lastbest = dna.cost();
-            dna = stepGeneration(dna, gensize, 4, (float)0.05);
-            if(dna.cost() < lastbest) System.err.println("New best on gen " + i + ": " + dna.cost());
+            //            heat = 2*(float)(lastbest/firstcost);
+            dna = stepGeneration(dna, gensize, 1, heat);
+            if(dna.cost() < lastbest) {
+                //                System.out.println(i + " " + dna.cost());
+                System.err.println(i + " " + dna.cost());
+            }
 
         }
-
+        System.err.println("heat: " + heat);
         System.out.println(dna);
         double cost = dna.cost();
         System.err.println(cost);

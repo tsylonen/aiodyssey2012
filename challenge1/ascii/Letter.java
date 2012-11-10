@@ -17,9 +17,10 @@ class Letter {
     }
 
     private static char randomLetter() {
+        Random rng = new Random();
         char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
         char letter = alphabet[Math.abs(rng.nextInt(26))];
-
+        return letter;
     }
 
     /**
@@ -65,7 +66,7 @@ class Letter {
         
         
 
-        rot = l.rot + rate * Math.pi * 2 * rng.nextDouble() - (rate * Math.pi);
+        rot = l.rot + rate * Math.PI * 2 * rng.nextDouble() - (rate * Math.PI);
         size = l.size + rate * rng.nextDouble() - (rate/2);
 
         r = comps[0] + rate * rng.nextFloat() - (rate/2);
@@ -79,10 +80,10 @@ class Letter {
         if(b>1) b = 1;
         if(g>1) g = 1;
         if(a>1) a = 1;
-        if(r<1) r = 0;
-        if(b<1) b = 0;
-        if(g<1) g = 0;
-        if(a<1) a = 0;
+        if(r<0) r = 0;
+        if(b<0) b = 0;
+        if(g<0) g = 0;
+        if(a<0) a = 0;
 
         char letter = l.letter;
         if(rng.nextFloat() < rate) {
