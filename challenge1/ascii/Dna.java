@@ -50,17 +50,20 @@ public class Dna {
 
     public Dna modifyMutate(int mutations, float rate) {
         Letter[] ret = Arrays.copyOf(dna , dna.length);
+        Random rng = new Random();
 
         for(int i = 0; i < mutations; i++) {
             int ind = Math.abs(rng.nextInt(dna.length));
             ret[i] = Letter.mutateLetter(ret[i], image.getWidth(), image.getHeight(), rate);
             
-            //flip a letter
-            int a = rng.nextInt(dna.length);
-            int b = rng.nextInt(dna.length);
-            Letter temp = ret[a];
-            ret[a] = ret[b];
-            ret[b] = temp;
+            //flip a letter with probability of rate
+            if(rng.nextDouble() < rate/2) {
+                int a = rng.nextInt(dna.length);
+                int b = rng.nextInt(dna.length);
+                Letter temp = ret[a];
+                ret[a] = ret[b];
+                ret[b] = temp;
+            }
         }
         
         Dna newdna = new Dna(ret, image);
