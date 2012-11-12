@@ -1,0 +1,11 @@
+Compile Mutator with ./compile.sh
+Run the program with ./run.sh <image name> <letter count> <generations> <output filename>
+View the result with java Ascii <letterfile> <input image name>
+
+lettercount will determine the amount of letters to use.
+
+generations will determine the amount of generations to run for.
+
+The program will output rows with numbers of generations where the image score got better 
+and the scores it achieved.
+

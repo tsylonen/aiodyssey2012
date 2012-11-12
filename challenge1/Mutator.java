@@ -11,17 +11,11 @@ import javax.imageio.*;
 import java.io.*;
 import java.awt.image.*;
 import java.util.ArrayList;
-//import java.util.List;
-//import java.awt.*;
-
-//import extra166y.Ops.LongOp;
-
-
 
 import java.util.Random;
 
 /**
- * Contains a very bad example solution.
+ * Approximates given image with an genetic algorithm
  */
 public class Mutator {
     /**
@@ -41,7 +35,9 @@ public class Mutator {
         img = ImageIO.read(new File(args[0]));
         int count = Integer.parseInt(args[1]);
         int generations = Integer.parseInt(args[2]);
-        int gensize = Integer.parseInt(args[3]);
+        // int gensize = Integer.parseInt(args[3]);
+
+        int gensize = 16;
 
         Dna dna = new Dna(count, img);
         double firstcost = dna.cost();
@@ -60,7 +56,7 @@ public class Mutator {
             }
 
         }
-        System.err.println("heat: " + heat);
+
         System.out.println(dna);
         double cost = dna.cost();
         System.err.println(cost);
