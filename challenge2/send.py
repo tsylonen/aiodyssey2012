@@ -7,7 +7,7 @@ passwd="TUtzKkuhtI8ik6p"
 
 #set scripts runnable and make the zip
 chmod("+x", "./run.sh", "./compile.sh")
-zzip("prisoner.zip", "run.sh", "compile.sh", "tittat.py")
+zzip("prisoner.zip", "run.sh", "compile.sh", "prisoner.py")
 
 #navigate to the login page
 br = mechanize.Browser()

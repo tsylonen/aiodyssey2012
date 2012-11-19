@@ -1,3 +1,5 @@
 #!/bin/sh
-python3 tittat.py
+python3 prisoner.py
+
+
 

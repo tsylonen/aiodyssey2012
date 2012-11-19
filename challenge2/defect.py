@@ -4,6 +4,6 @@ import sys
 
 while(True):
     print("defect")
-    rubish = input()
+    rubbish = input()
 
     sys.stdout.flush()
