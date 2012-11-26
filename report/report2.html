@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AI Odyssey 2012</title>
+    <link href="./style.css" rel="stylesheet" type="text/css"  />
+  </head>
+  <body>
+    <div id="main">
+      <section id="header">
+        <img id="hal" src="images/hal.png" alt="AI Odyssey 2012">
+        <h1>AI Odyssey 2012</h1>
+      </section>
+      <section class="challenge">
+
+        <h2>Challenge 2: Repeated Prisoner's Challenge </h2>
+        <p>
+          The topic
+          of <a href="http://www.cs.helsinki.fi/node/75723">challenge
+          number two</a> was repeated prisoner's dilemma, a version of
+          the well known prisoner's dilemma in which the game is
+          played a number of times against the same opponent and the
+          prison years are summed up.
+        </p>
+        <p>
+          In this challenge there are 8 opposing AI of which all but
+          two use a known strategy. One game is 100 rounds long and
+          the scores against all the bots are summed up in the end.
+        </p>
+        <p>
+          An optimal score in this challenge could easily be attained by
+          figuring out a short move sequence that would trigger unique
+          responses from each of the opposing AI players and select
+          the optimal strategy against the detected AI. I decided
+          against doing this as it would not have been a very
+          interesting approach and there was to be a tournament of
+          student AIs playing against each other in the end in which
+          the strategy would probably have failed very badly.
+        </p>
+        <p>
+          I started out by implementing a the well known tit-for-tat
+          player which starts off by cooperating, then playing the
+          opponents previous move. Tit-for-tat is known to be one of
+          the overall best strategies for repeated prisoner's dilemma
+          and it's very easy to implement. This fared pretty well
+          against many of the opposing strategies but got a score that
+          few hundred over the required minimum.
+        </p>
+        <p>
+          As I was not very likely to find a general strategy that
+          would fare well enough against the given set of opponents I
+          decided to add a few tweaks that would target the given
+          opponents without altering the basic tit-for-tat mechanism
+          too much.
+        </p>
+        <p>
+          I added a second round of cooperation at the beginning of
+          each match. This avoided going into a loop of always making
+          the worst decision against the tit-for-tat which starts off
+          by defecting. Next I added simple methods for detecting if
+          the opponent always cooperates, always chooses the opposing
+          move my AI did on the last round and playing randomly.
+          Against these AIs my bot would simply defect on each round.
+          The final tweak I made was always defecting on the last
+          round.
+        </p>
+        <p>
+          With these straightforward rules my AI was able to get a
+          decent score and still play pretty close to the normal
+          tit-for-tat rules against most opponents. It would not have
+          been hard to reverse engineer the secret strategies and
+          making methods to try and detect them and choose an optimal
+          counter strategy but I decided it wouldn't be very
+          interesting and didn't to that.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>
