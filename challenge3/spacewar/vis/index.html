@@ -1,0 +1,160 @@
+<html>
+<head>
+<script id="shader-fs" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform vec3 ldir;
+
+varying vec4 vpos;
+varying vec3 vnormal;
+varying vec3 vcolor;
+void main() {
+	vec3 norm = normalize(vnormal);
+//	gl_FragColor = vpos;
+	float a = .1 + .9*max(0., dot(norm, ldir));
+	vec3 c = vcolor * vec3(a,a,a);
+	gl_FragColor = vec4(c,1);
+}
+</script>
+<script id="shader-vs" type="x-shader/x-vertex">
+uniform mat4 trans;
+uniform mat3 nmat;
+
+attribute vec3 pos;
+attribute vec3 normal;
+attribute vec3 color;
+
+varying vec4 vpos;
+varying vec3 vnormal;
+varying vec3 vcolor;
+
+void main() {
+	gl_Position = trans * vec4(pos, 1);
+	vpos = vec4(pos,1);
+	vnormal = nmat * normal;
+	vcolor = color;
+}
+</script>
+
+<script id="planet-fs" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform sampler2D palette;
+uniform sampler2D tex;
+uniform vec3 ldir;
+uniform float time;
+
+varying vec4 vpos;
+varying vec3 vnormal;
+varying vec2 tcoord;
+
+void main() {
+	float t = texture2D(tex, tcoord).a + time;
+//	vec3 vcolor = vec3(t,t,t);
+	vec3 vcolor = texture2D(palette, vec2(t,.5)).rgb;
+	vec3 norm = normalize(vnormal);
+//	gl_FragColor = vpos;
+	float a = .1 + max(0., .9*dot(norm, ldir));
+	vec3 c = vcolor * vec3(a,a,a);
+	gl_FragColor = vec4(c,1);
+}
+</script>
+<script id="planet-vs" type="x-shader/x-vertex">
+uniform mat4 trans;
+uniform mat3 nmat;
+
+attribute vec3 pos;
+attribute vec3 normal;
+
+varying vec4 vpos;
+varying vec3 vnormal;
+varying vec2 tcoord;
+#define PI 3.1415926535897932384626433832795
+
+void main() {
+	gl_Position = trans * vec4(pos, 1);
+	vpos = vec4(pos,1);
+	vnormal = nmat * normal;
+	tcoord = vec2(.5+atan(pos.z, pos.x)/(2.*PI), atan(pos.y, length(pos.xz))/PI+.5);
+}
+</script>
+
+<script id="text-fs" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform sampler2D tex;
+varying vec2 tcoord;
+varying vec3 vcolor;
+
+void main() {
+	float a = texture2D(tex, tcoord).r;
+	gl_FragColor = vec4(vcolor,a);
+}
+</script>
+<script id="text-vs" type="x-shader/x-vertex">
+uniform mat4 trans;
+
+attribute vec3 pos;
+attribute vec3 color;
+attribute float cnum;
+
+varying vec2 tcoord;
+varying vec3 vcolor;
+
+void main() {
+	gl_Position = trans * vec4(pos, 1);
+	vcolor = color;
+	tcoord = vec2(cnum + pos.x/20., .5*(pos.y+1.));
+//	tcoord = pos.xy;
+}
+</script>
+<script id="particle-fs" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision highp float;
+#endif
+uniform sampler2D tex;
+varying vec4 vcolor;
+void main() {
+	float a = texture2D(tex, gl_PointCoord).a;
+	gl_FragColor = vcolor * vec4(1.,1.,1.,a);
+}
+</script>
+<script id="particle-vs" type="x-shader/x-vertex">
+uniform mat4 trans;
+attribute vec3 pos;
+attribute vec4 color;
+varying vec4 vcolor;
+
+void main() {
+	gl_Position = trans * vec4(pos, 1);
+	gl_PointSize = 10.0;
+	vcolor = color;
+}
+</script>
+
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="vector.js"></script>
+<script type="text/javascript" src="matrix.js"></script>
+<script type="text/javascript" src="Buffer.js"></script>
+<script type="text/javascript" src="Model.js"></script>
+<script type="text/javascript" src="shader.js"></script>
+<script type="text/javascript" src="modelgen.js"></script>
+<script type="text/javascript" src="Craft.js"></script>
+<script type="text/javascript" src="Planet.js"></script>
+<script type="text/javascript" src="game.js"></script>
+<script type="text/javascript" src="geometry.js"></script>
+<script type="text/javascript" src="init.js"></script>
+<script type="text/javascript" src="draw.js"></script>
+<script type="text/javascript" src="Particle.js"></script>
+</head>
+<body onload="init()">
+<canvas id="canvas" width="800" height="600">Canvas support required.</canvas>
+<div id="debug"></div>
+</body>
+</html>
