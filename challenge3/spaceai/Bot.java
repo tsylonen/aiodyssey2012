@@ -1,69 +1,71 @@
 import java.util.*;
 public class Bot {
-	public static void main(String[] args) {
-		new Bot().run();
-	}
-	Scanner s = new Scanner(System.in);
-	Random rng = new Random();
-	Planet[] planets;
+    public static void main(String[] args) {
+        new Bot().run();
+    }
 
-	void run() {
-		s.useLocale(Locale.US);
-		planets = new Planet[s.nextInt()];
-		for(int i=0; i<planets.length; ++i) {
-			Planet p = new Planet();
-			p.x = s.nextDouble();
-			p.y = s.nextDouble();
-			p.z = s.nextDouble();
-			p.size = s.nextDouble();
-			p.population = s.nextDouble();
-			p.owner = s.nextInt();
-			planets[i] = p;
-		}
+    Scanner s = new Scanner(System.in);
+    Random rng = new Random();
+    Planet[] planets;
+    State state;
+    Ai ai;
 
-		while(true) {
-			readInput();
-			play();
-		}
-	}
+    void run() {
+        s.useLocale(Locale.US);
+        planets = new Planet[s.nextInt()];
+        for(int i=0; i<planets.length; ++i) {
+            Planet p = new Planet();
+            p.x = s.nextDouble();
+            p.y = s.nextDouble();
+            p.z = s.nextDouble();
+            p.size = s.nextDouble();
+            p.population = s.nextDouble();
+            p.owner = s.nextInt();
+            p.idnum = i;
+            planets[i] = p;
+        }
+        state = new State(planets);
+        ai = new Ai(state);
 
-	void readInput() {
-		System.out.println("STATUS");
-		while(true) {
-			String msg = s.next();
-			if (msg.equals("PLANETS")) {
-				for(int i=0; i<planets.length; ++i) {
-					Planet p = planets[i];
-					p.population = s.nextDouble();
-					p.owner = s.nextInt();
-				}
-				break;
-			} else if (msg.equals("SEND")) {
-				int owner = s.nextInt();
-				int from = s.nextInt();
-				int to = s.nextInt();
-				int count = s.nextInt();
-			}
-		}
-	}
+        while(true) {
+            readInput();
+            play();
+        }
+    }
 
-	void play() {
-		for(int i=0; i<planets.length; ++i) {
-			Planet p = planets[i];
-			if (p.owner==1 && p.population>=20) {
-				int count = rng.nextInt((int)p.population);
-				int to = rng.nextInt(planets.length);
+    void readInput() {
+        System.out.println("STATUS");
+        while(true) {
+            String msg = s.next();
+            if (msg.equals("PLANETS")) {
+                for(int i=0; i<planets.length; ++i) {
+                    Planet p = planets[i];
+                    p.population = s.nextDouble();
+                    p.owner = s.nextInt();
+                }
+                break;
+            } else if (msg.equals("SEND")) {
+                int owner = s.nextInt();
+                int from = s.nextInt();
+                int to = s.nextInt();
+                int count = s.nextInt();
+                
+                this.state.addFlight(owner, from, to, count);
+            }
+            state.setPlanets(planets);
+        }
+    }
 
-				System.out.printf("SEND %d %d %d\n", i, to, count);
-				p.population -= count;
-			}
-		}
-	}
-}
-
-class Planet {
-	double x,y,z;
-	double size;
-	double population;
-	int owner;
+    void play() {
+        for(int i=0; i<planets.length; ++i) {
+            Planet p = planets[i];
+            if (p.owner==1 && p.population>=20) {
+                int count = rng.nextInt((int)p.population);
+                int to = ai.bestPlanet();
+                // int to = ((Planet)state.planets.get(0)).idnum;
+                System.out.printf("SEND %d %d %d\n", i, to, count);
+                p.population -= count;
+            }
+        }
+    }
 }
