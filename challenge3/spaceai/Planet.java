@@ -1,7 +1,7 @@
 public class Planet implements Comparable<Planet> {
     double x,y,z;
     double size;
-    double population;
+    int ships;
     int owner;
     int idnum;
 

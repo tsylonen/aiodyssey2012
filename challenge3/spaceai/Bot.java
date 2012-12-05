@@ -19,7 +19,7 @@ public class Bot {
             p.y = s.nextDouble();
             p.z = s.nextDouble();
             p.size = s.nextDouble();
-            p.population = s.nextDouble();
+            p.ships = (int)s.nextDouble();
             p.owner = s.nextInt();
             p.idnum = i;
             planets[i] = p;
@@ -39,8 +39,8 @@ public class Bot {
             String msg = s.next();
             if (msg.equals("PLANETS")) {
                 for(int i=0; i<planets.length; ++i) {
-                    Planet p = planets[i];
-                    p.population = s.nextDouble();
+                    Planet p = state.planets.get(i);
+                    p.ships = (int)s.nextDouble();
                     p.owner = s.nextInt();
                 }
                 break;
@@ -52,19 +52,27 @@ public class Bot {
                 
                 this.state.addFlight(owner, from, to, count);
             }
-            state.setPlanets(planets);
+            state.refreshHack();
         }
     }
 
     void play() {
+
         for(int i=0; i<planets.length; ++i) {
-            Planet p = planets[i];
-            if (p.owner==1 && p.population>=20) {
-                int count = rng.nextInt((int)p.population);
-                int to = ai.bestPlanet();
-                // int to = ((Planet)state.planets.get(0)).idnum;
-                System.out.printf("SEND %d %d %d\n", i, to, count);
-                p.population -= count;
+            if(ai.enemyBeatable()) {
+                System.err.println("nuclear!");
+                ai.nuclearTesuji();
+            }
+            else {
+                                       
+                Planet p = planets[i];
+                if (p.owner==1 && p.ships>=20) {
+                    int count = rng.nextInt((int)p.ships);
+                    int to = ai.bestPlanet();
+                    // int to = ((Planet)state.planets.get(0)).idnum;
+                    System.out.printf("SEND %d %d %d\n", i, to, count);
+                    p.ships -= count;
+                }
             }
         }
     }
