@@ -42,6 +42,7 @@ public class Bot {
                     Planet p = state.planets.get(i);
                     p.ships = (int)s.nextDouble();
                     p.owner = s.nextInt();
+
                 }
                 break;
             } else if (msg.equals("SEND")) {
@@ -57,23 +58,27 @@ public class Bot {
     }
 
     void play() {
+        //            System.err.println(state.ownPlanets.size() + " " + state.enemyPlanets.size() + "\n ship: own: " + state.ownShips + " enemy: " + state.enemyShips);
+            //            System.err.println("Flights: " + state.ownFlights.size());
+        // if(ai.enemyBeatable()) {
+        //     System.err.println("nuclear!");
 
-        for(int i=0; i<planets.length; ++i) {
-            if(ai.enemyBeatable()) {
-                System.err.println("nuclear!");
-                ai.nuclearTesuji();
-            }
-            else {
+        //     ai.nuclearTesuji();
+        // }
+        ai.makeAttacks();
+        //        System.err.println(state.planets.get(0).enemyInfluence + " " + state.planets.get(0).ownInfluence);
+
+        // for(int i=0; i<planets.length; ++i) {
                                        
-                Planet p = planets[i];
-                if (p.owner==1 && p.ships>=20) {
-                    int count = rng.nextInt((int)p.ships);
-                    int to = ai.bestPlanet();
-                    // int to = ((Planet)state.planets.get(0)).idnum;
-                    System.out.printf("SEND %d %d %d\n", i, to, count);
-                    p.ships -= count;
-                }
-            }
-        }
+        //     Planet p = planets[i];
+        //     if (p.owner==1 && p.ships>=10) {
+        //         int count = rng.nextInt((int)p.ships);
+        //         int to = ai.bestPlanet();
+        //         // int to = ((Planet)state.planets.get(0)).idnum;
+        //         System.out.printf("SEND %d %d %d\n", i, to, count);
+        //         p.ships -= count;
+        //     }
+        // }
+        
     }
 }

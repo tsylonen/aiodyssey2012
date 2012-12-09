@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Iterator;
 
+
 /**
  * State contains the current game state and methods to query
  * important things about it.
@@ -24,6 +25,7 @@ public class State {
         ownFlights = new ArrayList<Flight>();
         enemyFlights = new ArrayList<Flight>();
         setPlanets(ps);
+        calculateDistances();
     }
 
     /**
@@ -42,9 +44,10 @@ public class State {
                 enemyPlanets.add(p);
             }
         }
-
+        removeOldFlights();
         refreshShipCounts();
-        calculateDistances();
+        calculateInfluences();
+
     }
 
     public void refreshHack() {
@@ -59,10 +62,26 @@ public class State {
 
         if(owner == 1) {
             ownFlights.add(f);
-            ownShips += f.size;
         } else if(owner == 2) {
             enemyFlights.add(f);
-            enemyShips += f.size;
+        }
+    }
+
+    /**
+     * Calculate the influence of own/enemy ships on all the planets. O(n²)
+     */
+    public void calculateInfluences() {
+        for(Planet p : planets) {
+            p.ownInfluence = 0;
+            p.enemyInfluence = 0;
+            for(Planet i : planets) {
+                  if(i.ships < 0) System.err.println("Planet " + i.idnum + " ships: " + i.ships);
+                if(i.owner == 1) {
+                    p.ownInfluence += i.ships/(1+Util.distance(i,p)*Util.distance(i,p));
+                } else if(i.owner == 2) {
+                    p.enemyInfluence += i.ships/(1+Util.distance(i,p)*Util.distance(i,p));
+                }
+            }
         }
     }
 
@@ -134,6 +153,8 @@ public class State {
     private void refreshShipCounts() {
         ownShipRate = 0;
         enemyShipRate = 0;
+        ownShips = 0;
+        enemyShips = 0;
 
         for(Planet p : this.planets) {
             if (p.owner == 1) {
