@@ -1,44 +1,51 @@
 import random
 import sys
 
+from Ai import Ai
+
 from Planet import Planet
-planets = []
+class play(object):
+    def __init__(self):
+        self.planets = []
+        self.ai = None
 
-def run():
-    numplanets = int(input())
-    sys.stderr.write("numplanets: " + str(numplanets) + "\n")
-    for i in range(numplanets):
-        a = input()
-        sys.stderr.write(a + "\n")
+    def run(self):
+        numplanets = int(input())
+        sys.stderr.write("numplanets: " + str(numplanets) + "\n")
+        for i in range(numplanets):
+            a = input()
+            sys.stderr.write(a + "\n")
         
-        planets.append(Planet(a,i))
+            self.planets.append(Planet(a,i))
 
-    while(True):
-        readInput()
-        play()
+        self.ai = Ai(self.planets)
+        
+        while(True):
+            self.readInput()
+            self.play()
 
-def readInput():
-    while(True):
+    def readInput(self):
         print("STATUS")
-        msg = input().split()
-        if msg[0] == "PLANETS":
-            msg = msg[1:]
+        while(True):
+            msg = input().split()
+            if msg[0] == "PLANETS":
+                msg = msg[1:]
 
-            for i in range(len(planets)):
-                planets[i].ships = float(msg[i*2])
-                planets[i].owner = int(msg[i*2+1])
-            return
+                for i in range(len(self.planets)):
+                    self.planets[i].ships = float(msg[i*2])
+                    self.planets[i].owner = int(msg[i*2+1])
+                self.ai.refresh()
+                return
 
-        elif msg[0] == "SEND":
-            pass
+            elif msg[0] == "SEND":
+                self.ai.addFlight(int(msg[1]), int(msg[2]), int(msg[3]), int(msg[4]))
+            
+    def play(self):
+#        self.ai.invade(self.ai.mostProfitableNotOwn())
+        self.ai.invadeGoodPlanets()
 
-def play():
-    for p in planets:
-
-        if p.owner == 1 and p.ships > 20:
-            to = random.randint(0, len(planets))
-            shipcount = random.randint(0, int(p.ships))
-            print("SEND " + str(p.idnum) + " " + str(to) + " " + str(shipcount))
         
 if __name__ == "__main__":
-    run()
+    play().run()
+    # while(True):
+    #     sys.stderr.write(input()+ "\n")

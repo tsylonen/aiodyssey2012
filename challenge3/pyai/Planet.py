@@ -8,6 +8,7 @@ class Planet(object):
         self.ships = float(ss[4])
         self.owner = int(ss[5])
         self.idnum = idnum
+        self.protecttime = None
 
     def __str__(self):
         return("Planet: " + str(self.idnum) + " owner: " + str(self.owner) + " ships: " + str(self.ships))

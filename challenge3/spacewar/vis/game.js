@@ -58,7 +58,8 @@ var game = {
 			var pos = ivadd(rvec(3), this.planets[from].pos);
 			this.crafts.push(new Craft(pos, this.planets[to], who));
 		}
-		this.planets[from].population -= count;
+		var p = this.planets[from];
+		p.population = Math.max(0, p.population-count);
 	},
 	moveCrafts: function(dt) {
 		for(var i=0; i<this.crafts.length; ++i) {
@@ -118,7 +119,6 @@ var game = {
 			var t = parseFloat(line[0]);
 			line.shift();
 			if (t > this.totalTime) break;
-			++this.replayLine;
 			handleSplitted(line);
 		}
 		if (this.replayLine>=this.replayStr.length) game.stop();
