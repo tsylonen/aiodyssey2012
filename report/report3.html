@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AI Odyssey 2012</title>
+    <link href="./style.css" rel="stylesheet" type="text/css"  />
+  </head>
+  <body>
+    <div id="main">
+      <section id="header">
+        <img id="hal" src="images/hal.png" alt="AI Odyssey 2012">
+        <h1>AI Odyssey 2012</h1>
+      </section>
+      <section class="challenge">
+
+        <h2>Challenge 3: Space War </h2>
+        <p>
+          In the <a href="http://www.cs.helsinki.fi/node/75811">last
+          challenge</a> of our course we were supposed to program an
+          AI for the game Space War, a real time strategy game in
+          which two players struggle for the ownership of a cluster of planets.
+        </p>
+        <p>
+          It would have been interesting to solve the problem with an
+          algorithm derived with an evolutionary metaheuristic but I
+          couldn't come up with a way to do that in a sensible way
+          fast enough so I gave up on the idea.
+        </p>
+        <p>
+          I thought it would be a good idea to use the sample java bot
+          as a base for my AI and started hacking away. I implemented
+          a bot that would give planets scores were supposed to
+          reflect the profitability of attacking them. The bot would
+          then attack the most profitable one. It would try to figure
+          out if the enemy could be killed right away by attacking
+          furiously and attempt to do so.
+        </p>
+        <p>
+          I tried adding features to the bot but couldn't get them to
+          work. I soon realised that the bot was full of bugs and I
+          wasn't very eager to try to debug them so I did what any
+          sensible programmer would do and began a rewrite from
+          scratch in python on the last day of the challenge :-)
+        </p>
+        <p>
+          Even though I reversed my inequality signs and sorted lists
+          in the wrong order uncountably many times it didn't take
+          long to have my python bot beat my old java one.           
+        </p>
+        <p>
+          I ended up with an algorithm that calculates a rough
+          profitability index for each planet. Bigger planets are
+          given a higher index than smaller ones and enemy planets are
+          given a higher one than neutral ones. Also, the less ships
+          there are present the better. Before these indexes are taken
+          into account, my bot sends ships to planets with very small
+          populations (less than 3) because otherwise it would often
+          not attack them. Later versions of my bot would also look for enemy ships
+          heading towards own planets and attempt to protect them from
+          being overrun.
+        </p>
+        <p>
+          For some reason I wasn't able to run my newest versions of
+          the bot on the server, the replays show them doing nothing
+          even though they worked on my computer so I wasn't able to
+          test any version that could protect its planets on the game
+          server. Still, my bot seemed to work reasonably
+          well against the organizers' bots but it did get beaten up quite
+          badly by bots from other players. 
+        </p>
+      </section>
+    </div>
+  </body>
+</html>
